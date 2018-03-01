@@ -2,6 +2,19 @@
   "name": "crud-ng5-firestore",
   "version": "0.0.0",
   "license": "MIT",
+  "description": "A CRUD application using Angular5, Firebase Firestore",
+  "keywords": [
+    "angular5",
+    "firestore",
+    "angularcli",
+    "angularcrud",
+    "angularcurd",
+    "ng5",
+    "firebase",
+    "crud-application",
+    "crud"
+  ],
+  "author": "Afroza Yasmin <afroza021@gmail.com> (http://afrozayasmin.me)",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
