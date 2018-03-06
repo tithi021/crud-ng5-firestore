@@ -3,6 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Category } from './category.model';
 import { CategoryService } from './category.service';
 import * as _ from "lodash";
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import * as _ from "lodash";
 export class AppComponent {
 
   model = new Category;
-  categories: Category[] = [];
+  categories: any;
   submitted = false;
 
   offset = 2;
@@ -21,7 +22,7 @@ export class AppComponent {
   subscription: any;
 
 
-  constructor(private afs: AngularFirestore, public categoryService: CategoryService) {
+  constructor(private afs: AngularFirestore, public page: CategoryService) {
   }
 
   ngOnInit() {
@@ -29,21 +30,24 @@ export class AppComponent {
   }
 
   getCategories(key?) {
-    this.categoryService.getCategories(this.offset, key).subscribe(
-      (category: Category[]) => {
-        this.categories = category;
-        console.log(this.categories);
-      }
-    );
+    this.page.getCategories(this.offset, key);
+    console.log(this.page.data);
+
+    // this.page.getCategories(this.offset, key).subscribe(
+    //   (category: Category[]) => {
+    //     this.categories = category;
+    //     console.log(this.categories);
+    //   }
+    // );
   }
 
   onSubmit() {
     this.submitted = true;
-    this.categoryService.addCategory({ name: this.model.name });
+    this.page.addCategory({ name: this.model.name });
   }
 
   delete(user) {
-    this.categoryService.deleteCategory(user);
+    this.page.deleteCategory(user);
   }
 
   edit(data, index) {
@@ -55,8 +59,11 @@ export class AppComponent {
   }
 
   nextPage() {
-    this.prevKeys.push(_.first(this.categories)['$key']) // set current key as pointer for previous page
-    this.getCategories(this.nextKey)
+    console.log('nextPage')
+    this.page.more()
+
+    // this.prevKeys.push(_.first(this.categories)['$key']) // set current key as pointer for previous page
+    // this.getCategories(this.nextKey)
   }
 
   prevPage() {

@@ -18,15 +18,19 @@
 
   <div class="col-xs-6">
     <h1>List of Category</h1>
-    <ul class="list-group">
+    <div *ngFor="let boat of page.data | async">
+      <h1>{{ boat.name }}</h1>
+    </div>
+
+    <!-- <ul class="list-group">
       <li class="list-group-item" *ngFor="let category of categories; let i = index">
         <span>
           <button type="button" class="btn btn-info" (click)="edit(category, i)">Edit </button>
           <button type="button" class="btn btn-danger" (click)="delete(category)">Delete </button>
         </span> {{category.id}} - {{category.name}}
       </li>
-    </ul>
-    <button (click)="prevPage()" [disabled]="!prevKeys?.length">Prev</button>
-    <button (click)="nextPage()" [disabled]="!nextKey">Next</button>
+    </ul> -->
+    <!-- <button (click)="prevPage()" [disabled]="!prevKeys?.length">Prev</button> -->
+    <button (click)="nextPage()">Next</button>
   </div>
 </div>
