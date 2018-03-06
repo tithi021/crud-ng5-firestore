@@ -22,7 +22,7 @@
       <li class="list-group-item" *ngFor="let category of categories; let i = index">
         <span>
           <button type="button" class="btn btn-info" (click)="edit(category, i)">Edit </button>
-          <button type="button" class="btn btn-danger" (click)="delete(i)">Delete </button>
+          <button type="button" class="btn btn-danger" (click)="delete(category)">Delete </button>
         </span> {{category.id}} - {{category.name}}
       </li>
     </ul>

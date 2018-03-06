@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Category } from './category.model';
+import { CategoryService } from './category.service';
 
 @Component({
   selector: 'app-root',
@@ -10,26 +11,30 @@ import { Category } from './category.model';
 export class AppComponent {
 
   model = new Category;
-  categories: Category[];
+  categories: Category[] = [];
   submitted = false;
 
-  constructor(private afs: AngularFirestore) {
-    this.categories = [
-      {
-        id: 1,
-        name: "Angular5"
+
+  constructor(private afs: AngularFirestore, public categoryService: CategoryService) {
+  }
+
+  ngOnInit() {
+
+    this.categoryService.getCategories().subscribe(
+      (category: Category[]) => {
+        this.categories = category;
+        console.log(this.categories);
       }
-    ]
+    );
   }
 
   onSubmit() {
     this.submitted = true;
-    this.model.id = this.categories.length + 1;
-    this.categories.push({ id: this.model.id, name: this.model.name });
+    this.categoryService.addCategory({ name: this.model.name });
   }
 
-  delete(index) {
-    this.categories.splice(1, index);
+  delete(user) {
+    this.categoryService.deleteCategory(user);
   }
 
   edit(data, index) {

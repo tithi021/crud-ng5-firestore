@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AppComponent } from './app.component';
-
+import { CategoryService } from './category.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence()
   ],
-  providers: [],
+  providers: [CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
