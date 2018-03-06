@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Category } from './category.model';
 import { CategoryService } from './category.service';
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,21 @@ export class AppComponent {
   categories: Category[] = [];
   submitted = false;
 
+  offset = 2;
+  nextKey: any; // for next button
+  prevKeys: any[] = []; // for prev button
+  subscription: any;
+
 
   constructor(private afs: AngularFirestore, public categoryService: CategoryService) {
   }
 
   ngOnInit() {
+    this.getCategories();
+  }
 
-    this.categoryService.getCategories().subscribe(
+  getCategories(key?) {
+    this.categoryService.getCategories(this.offset, key).subscribe(
       (category: Category[]) => {
         this.categories = category;
         console.log(this.categories);
@@ -44,4 +53,17 @@ export class AppComponent {
   update(index) {
     console.log(this.model)
   }
+
+  nextPage() {
+    this.prevKeys.push(_.first(this.categories)['$key']) // set current key as pointer for previous page
+    this.getCategories(this.nextKey)
+  }
+
+  prevPage() {
+    const prevKey = _.last(this.prevKeys) // use last key in array
+    this.prevKeys = _.dropRight(this.prevKeys) // then remove the last key in the array
+
+    this.getCategories(prevKey)
+  }
+
 }

@@ -11,9 +11,13 @@ export class CategoryService {
   categoryDoc: AngularFirestoreDocument<Category>;
 
   constructor(public _afs: AngularFirestore) {
+
+  }
+
+  getCategories(offset, startKey?) {
     // https://firebase.google.com/docs/firestore/query-data/query-cursors
-    this.categoryCollection = this._afs.collection('categories', x => x.orderBy('name', 'asc').limit(3));
-    this.categories = this.categoryCollection.snapshotChanges().map(
+    this.categoryCollection = this._afs.collection('categories', x => x.orderBy('name', 'asc').limit(offset));
+    return this.categories = this.categoryCollection.snapshotChanges().map(
       changes => {
         return changes.map(
           a => {
@@ -25,12 +29,10 @@ export class CategoryService {
       });
   }
 
-  getCategories() {
-    return this.categories;
-  }
   addCategory(category) {
     this.categoryCollection.add(category);
   }
+
   deleteCategory(category) {
     this.categoryDoc = this._afs.doc(`categories/${category.id}`);
     this.categoryDoc.delete();

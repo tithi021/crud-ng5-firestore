@@ -26,5 +26,7 @@
         </span> {{category.id}} - {{category.name}}
       </li>
     </ul>
+    <button (click)="prevPage()" [disabled]="!prevKeys?.length">Prev</button>
+    <button (click)="nextPage()" [disabled]="!nextKey">Next</button>
   </div>
 </div>
