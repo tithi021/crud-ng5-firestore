@@ -11,7 +11,8 @@ export class CategoryService {
   categoryDoc: AngularFirestoreDocument<Category>;
 
   constructor(public _afs: AngularFirestore) {
-    this.categoryCollection = this._afs.collection('categories', x => x.orderBy('name', 'asc'));
+    // https://firebase.google.com/docs/firestore/query-data/query-cursors
+    this.categoryCollection = this._afs.collection('categories', x => x.orderBy('name', 'asc').limit(3));
     this.categories = this.categoryCollection.snapshotChanges().map(
       changes => {
         return changes.map(
